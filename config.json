@@ -1,0 +1,10 @@
+{
+    "name": "NeuralLink",
+    "version": "0.1.0",
+    "description": "Connection to a remote AI model",
+    "system": {
+        "host": "127.0.0.1",
+        "model": "smollm2:135m",
+        "port": 11434
+    }
+}
