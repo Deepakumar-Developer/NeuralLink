@@ -1,30 +1,27 @@
-import requests
-import json
+from logo import logo
+from widget import *
 
-URL = "http://127.0.0.1:11434/api/generate"
+clear_terminal()
 
-def ask_llm(prompt):
+if __name__ == "__main__":
+    print(logo)
+    loader("initializing...")
+    print("\r>>> ⚪ Server is Live now!\n")
+    
+    try:
+        print(">>> Describe your need")
+        while True:
+            # input
+            prompt = input(">>> ")
+            # output
+            print("\n>>> 💭 Insight...\n")            
+            for chunk in ask_llm(prompt):
+                print(chunk, end="", flush=True)
+            print("\n")
 
-    response = requests.post(
-        URL,
-        json={
-            "model": "smollm2:135m",
-            "prompt": prompt,
-            "stream": True
-        },
-        stream=True
-    )
-
-    for line in response.iter_lines():
-        if line:
-            data = json.loads(line)
-
-            if "response" in data:
-                yield data["response"]
-
-            if data.get("done"):
-                break
+    except KeyboardInterrupt:
+        print("\r>>> Stopping server...")
+        loader("Stoping...")
+        print("\rServer down. Standing by for future requests. Goodbye! ✨")
 
 
-for chunk in ask_llm("Write the python code to run the ifconfig at 192.168.0.10"):
-    print(chunk, end="", flush=True)
